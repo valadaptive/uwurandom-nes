@@ -91,7 +91,7 @@ int main() {
     ppu_on_all(); 
     oam_clear();
 
-    for (int i = 0; i < 480; ++i) {
+    for (int i = 0; i < 480 && !(pad_poll(0) & PAD_START); ++i) {
         ppu_wait_nmi();
     }
     
