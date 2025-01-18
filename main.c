@@ -8,6 +8,7 @@
 
 #include "uwurandom_core.h"
 #include "uwurandom_ops.h"
+#include "uwurandom_platform.h"
 
 #define EFAULT 14
 
@@ -92,10 +93,13 @@ int main() {
     ppu_on_all(); 
     oam_clear();
 
+    uint16_t rng_tick = 0;
     for (int i = 0; i < 480 && !(pad_poll(0) & PAD_START); ++i) {
         ppu_wait_nmi();
+        rng_tick++;
     }
-    
+    rand_state += rng_tick;
+    rng_tick = 0;
 
     ppu_off(); // screen off
     vram_fill(0, 0x2000);
@@ -168,6 +172,8 @@ int main() {
                 oam_spr(226, 208,0x90, 0); 
             }
             if (pad1 & PAD_A) {
+                rand_state += rng_tick;
+                rng_tick = 0;
                 game_state = GAME_STATE_TEXT_SCROLL;
                 text_scroll = 0;
                 ppu_off();
@@ -222,7 +228,7 @@ int main() {
             time = 0;
             ++big_time;
         }
-
+        ++rng_tick;
         
         if (game_state == GAME_STATE_TEXT_SCROLL) {
             oam_spr(17<<3, (10<<3)-1, 0x8E, 0);
