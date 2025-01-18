@@ -1618,6 +1618,16 @@ void clear_dialog() {
 //     vprint(x, y, dialog_buf, len);
 // }
 
+// llvm-mos-sdk doesn't implement strnlen :(
+size_t strnlen(const char *str, size_t maxlen) {
+    for (size_t i = 0; i < maxlen; i++) {
+        if (str[i] == '\0') {
+            return i;
+        }
+    }
+    return maxlen;
+}
+
 enum GameState{
     GAME_STATE_TEXT_SCROLL,
     GAME_STATE_TEXT_WAIT,
@@ -1740,7 +1750,7 @@ int main() {
                 vram_adr(NTADR_A(3, 26));
                 vram_write(dialog_buf, 26);
                 write_chars(&state, dialog_buf, UWUN);
-                dialog_len = strlen(dialog_buf);
+                dialog_len = strnlen(dialog_buf, 103);
                 ppu_on_all();
             }
         } else {
