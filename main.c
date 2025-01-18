@@ -188,7 +188,7 @@ int main() {
                 vram_adr(NTADR_A(3, 26));
                 vram_write(dialog_buf, 26);
                 uwu_write_chars(&state, dialog_buf, UWUN);
-                dialog_len = strnlen(dialog_buf, 103);
+                dialog_len = strnlen(dialog_buf, UWUN);
                 ppu_on_all();
             }
         } else {
