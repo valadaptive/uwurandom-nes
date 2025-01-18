@@ -11,7 +11,7 @@ set(CMAKE_EXECUTABLE_SUFFIX .NES)
 
 add_executable(UWURANDOM main.c chr-rom.s)
 target_include_directories(UWURANDOM PRIVATE .)
-target_link_libraries(UWURANDOM neslib)
+target_link_libraries(UWURANDOM neslib nesdoug)
 set_property(SOURCE chr-rom.s PROPERTY
   OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/sprites.chr)
 

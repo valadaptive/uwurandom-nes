@@ -4,6 +4,7 @@
 #include<inttypes.h>
 
 #include<neslib.h>
+#include<nesdoug.h>
 
 #include "uwurandom_core.h"
 #include "uwurandom_ops.h"
@@ -204,12 +205,10 @@ int main() {
                 // reset fast text and place all characters as bg tiles
                 if (fast_text_index == MAX_FAST_TEXT) {
                     fast_text_index = 0;
-                    ppu_off();
+                    set_vram_buffer();
                     for (size_t i = 0; i < MAX_FAST_TEXT; ++i) {
-                        vram_adr(NTADR_A(fast_text_bufx[i], fast_text_bufy[i]));
-                        vram_put(fast_text_bufc[i]);
+                        one_vram_buffer(fast_text_bufc[i], NTADR_A(fast_text_bufx[i], fast_text_bufy[i]));
                     }
-                    ppu_on_all();
                 }
             }
         }
